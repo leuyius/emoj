@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emoj.dao.CommentRepository;
 import com.emoj.pojo.CommentDO;
+import com.emoj.util.EmojiFilter;
 
 /**
  * Description: <BR>
@@ -25,12 +26,25 @@ public class EmojController {
 
 	@Autowired
 	private CommentRepository commentRepository;
-	
+
 	@PostMapping("/save")
-	public CommentDO save(CommentDO commentDO){
-		if(commentDO == null || StringUtils.isEmpty(commentDO.getContent())){
+	public CommentDO save(CommentDO commentDO) {
+		if (commentDO == null || StringUtils.isEmpty(commentDO.getTitle())
+				|| StringUtils.isEmpty(commentDO.getContent())) {
 			return null;
 		}
+		// 表情处理
+		System.out.println(commentDO.getTitle());
+		System.out.println(commentDO.getContent());
+		if (EmojiFilter.containsEmoji(commentDO.getTitle())) {
+			System.out.println("======title======");
+			commentDO.setTitle(EmojiFilter.filterEmoji(commentDO.getTitle()));
+		}
+		if (EmojiFilter.containsEmoji(commentDO.getContent())) {
+			System.out.println("======content======");
+			commentDO.setContent(EmojiFilter.filterEmoji(commentDO.getContent()));
+		}
+		
 		return commentRepository.save(commentDO);
 	}
 }

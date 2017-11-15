@@ -29,6 +29,8 @@ public class CommentDO {
 
 	private String content;
 	
+	private Integer age;
+	
 	/**
 	 * 
 	 */
@@ -58,5 +60,19 @@ public class CommentDO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	@Override
+	public String toString() {
+		return "CommentDO [id=" + id + ", title=" + title + ", content=" + content + ", age=" + age + "]";
+	}
+
 	
 }
